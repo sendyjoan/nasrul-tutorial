@@ -33,11 +33,11 @@ class Transactions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date', 'transaction_category_id', 'product_id', 'supplier_id', 'sales_id', 'quantity', 'berita_acara'], 'required'],
+            [['date', 'transaction_category_id', 'product_id', 'supplier_id', 'sales_id', 'quantity'], 'required'],
             [['date'], 'safe'],
             [['transaction_category_id', 'product_id', 'supplier_id', 'sales_id', 'quantity'], 'integer'],
             [['note'], 'string'],
-            [['berita_acara'], 'string', 'max' => 255],
+            [['berita_acara'], 'file', 'skipOnEmpty' => false],
         ];
     }
 
@@ -47,7 +47,7 @@ class Transactions extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'ID Transaksi',
             'date' => 'Date',
             'transaction_category_id' => 'Transaction Category ID',
             'product_id' => 'Product ID',
@@ -57,5 +57,25 @@ class Transactions extends \yii\db\ActiveRecord
             'berita_acara' => 'Berita Acara',
             'note' => 'Note',
         ];
+    }
+
+    public function getTransactionCategory()
+    {
+        return $this->hasOne(TransactionCategories::class, ['id' => 'transaction_category_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(Products::class, ['id' => 'product_id']);
+    }
+
+    public function getSupplier()
+    {
+        return $this->hasOne(Suppliers::class, ['id' => 'supplier_id']);
+    }
+
+    public function getSales()
+    {
+        return $this->hasOne(Saleses::class, ['id' => 'sales_id']);
     }
 }

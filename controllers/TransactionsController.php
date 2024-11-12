@@ -2,11 +2,15 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\web\Controller;
+use app\models\Products;
+use yii\web\UploadedFile;
+use yii\filters\VerbFilter;
 use app\models\Transactions;
 use app\models\TransactionsSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use app\models\TransactionCategories;
 
 /**
  * TransactionsController implements the CRUD actions for Transactions model.
@@ -69,8 +73,32 @@ class TransactionsController extends Controller
     {
         $model = new Transactions();
 
+        if($model->load(Yii::$app->request->post()) && $model->validate()){
+            $file = UploadedFile::getInstance($model, 'berita_acara');
+            $fileName = $file->baseName . '.' . $file->extension;
+            $filePath = Yii::getAlias('@webroot') . '/uploads/' . $fileName;
+
+            if($file->saveAs($filePath)){
+                $model->berita_acara = $fileName;
+
+                // Logic stock products
+                $product = Products::findOne($model->product_id);
+                $transaction = TransactionCategories::findOne($model->transaction_category_id);
+                if($transaction->name == 'Transaksi Masuk'){
+                    $product->stock += $model->quantity;
+                } elseif ($transaction->name == 'Transaksi Keluar') {
+                    $product->stock -= $model->quantity;
+                } else {
+                    $product->stock = $product->stock;
+                }
+                $product->save();
+
+                $model->save();
+            }
+        }
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

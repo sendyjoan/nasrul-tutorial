@@ -1,10 +1,14 @@
 <?php
 
-use app\models\Transactions;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\ActionColumn;
+use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Products;
+use app\models\Suppliers;
+use yii\grid\ActionColumn;
+use app\models\Transactions;
+use yii\helpers\ArrayHelper;
+use app\models\TransactionCategories;
 
 /** @var yii\web\View $this */
 /** @var app\models\TransactionsSearch $searchModel */
@@ -31,9 +35,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'date',
-            'transaction_category_id',
-            'product_id',
-            'supplier_id',
+            [
+                'attribute' => 'transaction_category_id',
+                'value' => 'transactionCategory.name',
+                'filter' => ArrayHelper::map(TransactionCategories::find()->all(), 'id', 'name'),
+            ],
+            [
+                'attribute' => 'product_id',
+                'value' => 'product.name', // Assuming 'product' relation exists and has 'name' attribute
+                'filter' => ArrayHelper::map(Products::find()->all(), 'id', 'name'), // Assuming Product model exists
+            ],
+            [
+                'attribute' => 'supplier_id',
+                'value' => 'supplier.name', // Assuming 'supplier' relation exists and has 'name' attribute
+                'filter' => ArrayHelper::map(Suppliers::find()->all(), 'id', 'name'), // Assuming Supplier model exists
+            ],
             //'sales_id',
             //'quantity',
             //'berita_acara',

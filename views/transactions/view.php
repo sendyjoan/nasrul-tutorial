@@ -31,12 +31,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'date',
-            'transaction_category_id',
-            'product_id',
-            'supplier_id',
-            'sales_id',
+            [
+                'attribute' => 'transaction_category_id',
+                'value' => $model->transactionCategory->name, // assuming 'transactionCategory' is the relation name and 'name' is the attribute to display
+            ],
+            [
+                'attribute' => 'product_id',
+                'value' => $model->product->name, // assuming 'product' is the relation name and 'name' is the attribute to display
+            ],
+            [
+                'attribute' => 'supplier_id',
+                'value' => $model->supplier->name, // assuming 'supplier' is the relation name and 'name' is the attribute to display
+            ],
+            [
+                'attribute' => 'sales_id',
+                'value' => $model->sales->name, // assuming 'sales' is the relation name and 'name' is the attribute to display
+            ],
             'quantity',
-            'berita_acara',
+            [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'value' => Html::img(Yii::$app->request->baseUrl . '/uploads/' . $model->berita_acara, ['alt' => 'My Image', 'width' => '200', 'height' => '200']),
+            ],
             'note:ntext',
         ],
     ]) ?>

@@ -16,7 +16,11 @@ use app\models\TransactionCategories;
 
 <div class="transactions-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(
+        [
+            'options' => ['enctype' => 'multipart/form-data']
+        ]
+    ); ?>
 
     <?= $form->field($model, 'date')->textInput(['type' => 'date']) ?>
 
@@ -43,7 +47,7 @@ use app\models\TransactionCategories;
 
     <?= $form->field($model, 'quantity')->textInput(['type' => 'number']) ?>
 
-    <?= $form->field($model, 'berita_acara')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'berita_acara')->fileInput() ?>
 
     <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
 
