@@ -162,7 +162,17 @@ class TransactionsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        // Hapus file dari storage
+        $filePath = Yii::getAlias('@webroot') . '/uploads/' . $model->berita_acara;
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
+        // Hapus model dari database
+        $model->delete();
+
 
         return $this->redirect(['index']);
     }
