@@ -121,12 +121,35 @@ class TransactionsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $file = UploadedFile::getInstance($model, 'berita_acara');
+            if ($file) {
+                $fileName = $file->baseName . '.' . $file->extension;
+                $filePath = Yii::getAlias('@webroot') . '/uploads/' . $fileName;
+                if ($file->saveAs($filePath)) {
+                    $model->berita_acara = $fileName;
+                }
+            }
+
+            // Logic stock products
+            $product = Products::findOne($model->product_id);
+            $transaction = TransactionCategories::findOne($model->transaction_category_id);
+            if ($transaction->name == 'Transaksi Masuk') {
+                $product->stock += $model->quantity;
+            } elseif ($transaction->name == 'Transaksi Keluar') {
+                $product->stock -= $model->quantity;
+            } else {
+                $product->stock = $product->stock;
+            }
+            $product->save();
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            // 'saleses' => Saleses::find('supplier_id', $model->sales->supplier_id)->all(),
         ]);
     }
 

@@ -40,10 +40,10 @@ use app\models\TransactionCategories;
 
     <?= $form->field($model, 'supplier_id')->dropDownList(
         ArrayHelper::map(Suppliers::find()->all(), 'id', 'name'),
-        ['prompt' => 'Silahkan Pilih Supplier', 'id' => 'mysupplierid']
+        ['prompt' => 'Silahkan Pilih Supplier', 'id' => 'mysupplierid', 'value' => $model->supplier_id]
     ) ?>
 
-    <?= $form->field($model, 'sales_id')->dropDownList([], ['prompt' => 'Pilih Sales', 'id' => 'mysalesid']) ?>
+    <?= $form->field($model, 'sales_id')->dropDownList([], ['prompt' => 'Pilih Sales', 'id' => 'mysalesid', 'value' => $model->sales_id]) ?>
 
     <?= $form->field($model, 'quantity')->textInput(['type' => 'number']) ?>
 
@@ -69,8 +69,14 @@ use app\models\TransactionCategories;
                     $.each(data, function(key, value) {
                         salesDropdown.append('<option value="' + key + '">' + value + '</option>');
                     });
-                })
+                });
             });
+
+            // Trigger change event to load sales options if supplier_id is already set
+            var initialSupplierId = $('#mysupplierid').val();
+            if (initialSupplierId) {
+                $('#mysupplierid').trigger('change');
+            }
         });
     </script>
 
