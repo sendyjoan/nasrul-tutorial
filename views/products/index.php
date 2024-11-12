@@ -1,10 +1,13 @@
 <?php
 
-use app\models\Products;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\grid\ActionColumn;
+use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Products;
+use app\models\Suppliers;
+use app\models\Categories;
+use yii\grid\ActionColumn;
+use yii\helpers\ArrayHelper;
 
 /** @var yii\web\View $this */
 /** @var app\models\ProductsSearch $searchModel */
@@ -29,12 +32,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'name',
-            'description:ntext',
+            // 'description:ntext',
+            [
+                'attribute' => 'category_id',
+                'value' => 'category.name',
+                'filter' => ArrayHelper::map(Categories::find()->all(), 'id', 'name'),
+            ],
+            [
+                'attribute' => 'supplier_id',
+                'value' => 'supplier.name',
+                'filter' => ArrayHelper::map(Suppliers::find()->all(), 'id', 'name'),
+            ],
             'price',
             'stock',
             //'category_id',
+            //'supplier_id',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Products $model, $key, $index, $column) {

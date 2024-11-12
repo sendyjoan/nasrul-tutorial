@@ -12,9 +12,11 @@ use Yii;
  * @property string|null $description
  * @property float $price
  * @property int $stock
- * @property int|null $category_id
+ * @property int $category_id
+ * @property int $supplier_id
  *
  * @property Categories $category
+ * @property Suppliers $supplier
  */
 class Products extends \yii\db\ActiveRecord
 {
@@ -32,12 +34,13 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price', 'stock', 'category_id'], 'required'],
+            [['name', 'price', 'stock', 'category_id', 'supplier_id'], 'required'],
             [['description'], 'string'],
             [['price'], 'number'],
-            [['stock', 'category_id'], 'integer'],
+            [['stock', 'category_id', 'supplier_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['supplier_id'], 'exist', 'skipOnError' => true, 'targetClass' => Suppliers::class, 'targetAttribute' => ['supplier_id' => 'id']],
         ];
     }
 
@@ -48,11 +51,12 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Product Name',
             'description' => 'Description',
             'price' => 'Price',
             'stock' => 'Stock',
-            'category_id' => 'Category ID',
+            'category_id' => 'Category',
+            'supplier_id' => 'Supplier',
         ];
     }
 
@@ -64,5 +68,15 @@ class Products extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Categories::class, ['id' => 'category_id']);
+    }
+
+    /**
+     * Gets query for [[Supplier]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSupplier()
+    {
+        return $this->hasOne(Suppliers::class, ['id' => 'supplier_id']);
     }
 }

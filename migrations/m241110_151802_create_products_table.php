@@ -18,8 +18,10 @@ class m241110_151802_create_products_table extends Migration
             'description' => $this->text(),
             'price' => $this->decimal(10, 2)->notNull(),
             'stock' => $this->integer()->notNull(),
-            'category_id' => $this->integer(),
-            'FOREIGN KEY (category_id) REFERENCES categories(id)'
+            'category_id' => $this->integer()->notNull(),
+            'supplier_id' => $this->integer()->notNull(),
+            'FOREIGN KEY (category_id) REFERENCES categories(id)',
+            'FOREIGN KEY (supplier_id) REFERENCES suppliers(id)',
         ]);
     }
 
