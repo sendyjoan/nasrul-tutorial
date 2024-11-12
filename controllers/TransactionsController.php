@@ -2,19 +2,16 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\helpers\Json;
-use app\models\Saleses;
+use app\models\Transactions;
+use app\models\TransactionsSearch;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use app\models\SalesesSearch;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * SalesesController implements the CRUD actions for Saleses model.
+ * TransactionsController implements the CRUD actions for Transactions model.
  */
-class SalesesController extends Controller
+class TransactionsController extends Controller
 {
     /**
      * @inheritDoc
@@ -35,13 +32,13 @@ class SalesesController extends Controller
     }
 
     /**
-     * Lists all Saleses models.
+     * Lists all Transactions models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new SalesesSearch();
+        $searchModel = new TransactionsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -51,7 +48,7 @@ class SalesesController extends Controller
     }
 
     /**
-     * Displays a single Saleses model.
+     * Displays a single Transactions model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -64,13 +61,13 @@ class SalesesController extends Controller
     }
 
     /**
-     * Creates a new Saleses model.
+     * Creates a new Transactions model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Saleses();
+        $model = new Transactions();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -86,7 +83,7 @@ class SalesesController extends Controller
     }
 
     /**
-     * Updates an existing Saleses model.
+     * Updates an existing Transactions model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -106,7 +103,7 @@ class SalesesController extends Controller
     }
 
     /**
-     * Deletes an existing Saleses model.
+     * Deletes an existing Transactions model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -120,15 +117,15 @@ class SalesesController extends Controller
     }
 
     /**
-     * Finds the Saleses model based on its primary key value.
+     * Finds the Transactions model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Saleses the loaded model
+     * @return Transactions the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Saleses::findOne(['id' => $id])) !== null) {
+        if (($model = Transactions::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

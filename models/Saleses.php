@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Suppliers;
 
 /**
  * This is the model class for table "saleses".
@@ -48,7 +49,12 @@ class Saleses extends \yii\db\ActiveRecord
             'phone_number' => 'Phone Number',
             'email' => 'Email',
             'address' => 'Address',
-            'supplier_id' => 'Supplier ID',
+            'supplier_id' => 'Supplier Name',
         ];
+    }
+
+    public function getSupplier()
+    {
+        return $this->hasOne(Suppliers::class, ['id' => 'supplier_id']);
     }
 }

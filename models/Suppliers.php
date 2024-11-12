@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Saleses;
 
 /**
  * This is the model class for table "suppliers".
@@ -59,5 +60,10 @@ class Suppliers extends \yii\db\ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Products::class, ['supplier_id' => 'id']);
+    }
+    
+    public function getSaleses()
+    {
+        return $this->hasMany(Saleses::class, ['supplier_id' => 'id']);
     }
 }

@@ -1,24 +1,24 @@
 <?php
 
-use app\models\Suppliers;
+use app\models\Transactions;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var app\models\SuppliersSearch $searchModel */
+/** @var app\models\TransactionsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Suppliers';
+$this->title = 'Transactions';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="suppliers-index">
+<div class="transactions-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Suppliers', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Transactions', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,14 +29,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
-            'name',
-            'address:ntext',
-            'phone',
-            'email:email',
+            'id',
+            'date',
+            'transaction_category_id',
+            'product_id',
+            'supplier_id',
+            //'sales_id',
+            //'quantity',
+            //'berita_acara',
+            //'note:ntext',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Suppliers $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Transactions $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

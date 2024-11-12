@@ -35,7 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             'stock',
             'category_id',
-            'supplier_id',
+            [
+                'attribute' => 'category_id',
+                'value' => $model->category->name,
+            ]
         ],
     ]) ?>
 

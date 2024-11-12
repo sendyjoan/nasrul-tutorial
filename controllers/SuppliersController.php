@@ -2,11 +2,15 @@
 
 namespace app\controllers;
 
-use app\models\Suppliers;
-use app\models\SuppliersSearch;
+use Yii;
+use yii\helpers\Json;
+use app\models\Saleses;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use app\models\Suppliers;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use app\models\SuppliersSearch;
+use yii\web\NotFoundHttpException;
 
 /**
  * SuppliersController implements the CRUD actions for Suppliers model.
@@ -130,5 +134,12 @@ class SuppliersController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGetSales() {
+        $supplierId = Yii::$app->request->get('supplierId');
+        $sales = Saleses::find()->where(['supplier_id' => $supplierId])->all();
+        // return Json::encode($sales);
+        return Json::encode(ArrayHelper::map($sales, 'id', 'name'));
     }
 }
