@@ -14,6 +14,7 @@ class m241112_083050_create_transaction_categories_table extends Migration
     {
         $this->createTable('{{%transaction_categories}}', [
             'id' => $this->primaryKey(),
+            'name' => $this->string()->notNull(),
         ]);
     }
 
