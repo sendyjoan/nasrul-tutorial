@@ -12,18 +12,12 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'modules' => [
-            'user' => [
-                'class' => 'dektrium\user\Module',
-            ],
-        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'bwlWiyR9n4pZd4wa21dtUw0NPLauFFIt',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-            'enableUnconfirmedLogin' => true
         ],
         // 'user' => [
         //     'identityClass' => 'app\models\User',
@@ -56,6 +50,13 @@ $config = [
         ],
     ],
     'params' => $params,
+    'modules' => [
+            'user' => [
+                'class' => 'dektrium\user\Module',
+                'enableUnconfirmedLogin' => true,
+                'admins' => ['admin']
+            ],
+        ],
 ];
 
 if (YII_ENV_DEV) {
