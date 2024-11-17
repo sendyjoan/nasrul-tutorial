@@ -12,6 +12,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'bwlWiyR9n4pZd4wa21dtUw0NPLauFFIt',
@@ -56,7 +59,21 @@ $config = [
                 'enableUnconfirmedLogin' => true,
                 'admins' => ['admin']
             ],
+            'admin' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',
+            'mainLayout' => '@app/views/layouts/main.php',
+            ],
         ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+            // '*',
+            'user/security/logout',
+            'user/security/login',
+        ]
+    ],
 ];
 
 if (YII_ENV_DEV) {
